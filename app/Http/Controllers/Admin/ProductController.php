@@ -55,14 +55,9 @@ class ProductController extends Controller
             $all_request['image'] = $image;
         }
         $all_request['slug'] = Str::slug($request->get('name'));
-        $product = Product::create( $all_request );
-        if($product) {
-            return redirect()->route('products.index')
+        Product::create( $all_request );
+        return redirect()->route('products.index')
             ->with('success', 'Created Product Successfully');
-        }else {
-            return redirect()->route('products.index')
-            ->with('success', 'Failed to create product');
-        }
     }
 
     /**
