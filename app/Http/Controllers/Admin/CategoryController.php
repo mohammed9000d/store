@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -44,15 +45,9 @@ class CategoryController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         //
-        $request->validate([
-            'name' => 'required|string|max:100|min:3',
-            'description' => 'nullable|string|min:5',
-            'parent_id' => 'nullable|int|exists:categories,id',
-            'image' => 'nullable|image'
-        ]);
         $request->merge([
             'slug' => Str::slug($request->get('name'))
         ]);
@@ -93,11 +88,10 @@ class CategoryController extends Controller
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         //
         $category = Category::findOrfail($id);
-
         $request->merge([
             'slug' => Str::slug($request->get('name'))
         ]);
