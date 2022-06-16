@@ -23,5 +23,5 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('/admin/products', 'Admin\ProductController')->middleware('auth');
+Route::resource('/admin/products', 'Admin\ProductController')->middleware(['auth', 'verified']);
 Route::resource('/admin/categories', 'Admin\CategoryController')->middleware('auth');
