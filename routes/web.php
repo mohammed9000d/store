@@ -1,8 +1,5 @@
 <?php
 
-// use App\Http\Controllers\Admin\CategoryController;
-
-use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('admin.dashboard');
 
-Route::prefix('admin')->namespace('Admin')->group( function(){
-    Route::get('/', 'GeneralController@dashboard')->name('admin.dashboard');
-    Route::resource('categories', 'CategoryController');
-    Route::resource('products', 'ProductController');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
+require __DIR__.'/auth.php';
 
+Route::resource('/admin/products', 'Admin\ProductController')->middleware('auth');
+Route::resource('/admin/categories', 'Admin\CategoryController')->middleware('auth');
