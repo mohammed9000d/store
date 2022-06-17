@@ -2,20 +2,20 @@
 
 namespace App\View\Components;
 
+use App\Models\Product;
 use Illuminate\View\Component;
 
-class storeFrontLayout extends Component
+class LatestProducts extends Component
 {
-    public $title;
+    public $products;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($title = '')
+    public function __construct($count = 10)
     {
-        //
-        $this->title = $title;
+        $this->products = Product::latest()->limit($count)->get();
     }
 
     /**
@@ -25,6 +25,6 @@ class storeFrontLayout extends Component
      */
     public function render()
     {
-        return view('layouts.store-front');
+        return view('components.latest-products');
     }
 }

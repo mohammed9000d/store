@@ -14,7 +14,7 @@
     <meta name="author" content="Nghia Minh Luong">
     <meta name="keywords" content="Default Description">
     <meta name="description" content="Default keyword">
-    <title>Sky - {{ $title }}</title>
+    <title>{{ $title }}</title>
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/front/plugins/ps-icon/style.css')}}">
     <!-- CSS Library-->
@@ -348,14 +348,14 @@
 <script type="text/javascript" src="{{asset('assets/front/plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/front/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/jquery.themepunch.tools.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/jquery.themepunch.revolution.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.video.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.navigation.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.parallax.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.actions.min.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/jquery.themepunch.tools.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/jquery.themepunch.revolution.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.video.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.navigation.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.parallax.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('assets/front/plugins/revolution/js/extensions/revolution.extension.actions.min.js')}}"></script>--}}
 <!-- Custom scripts-->
 <script type="text/javascript" src="{{asset('assets/front/js/main.js')}}"></script>
 </body>
