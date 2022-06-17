@@ -6,3 +6,4 @@
        value="{{ old($name, $value ?? null) }}">
 @error($name)
 <p class="invalid-feedback">{{ $message }}</p>
+@enderror

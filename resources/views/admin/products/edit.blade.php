@@ -56,16 +56,17 @@
                          @enderror
                     </div>
                     <div class="form-group">
-                        <label>Select</label>
-                        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                          <option value="">No Category</option>
-                          @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" @if (old('category_id', $product->category_id) == $category->id ) selected @endif>{{ $category->name }}</option>
-                          @endforeach
-                        </select>
-                        @error('category_id')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                        <x-form-select name="category_id" lable="Category" :options="$categories" :selected="$product->category_id" />
+{{--                        <label>Select</label>--}}
+{{--                        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">--}}
+{{--                          <option value="">No Category</option>--}}
+{{--                          @foreach ($categories as $category)--}}
+{{--                            <option value="{{ $category->id }}" @if (old('category_id', $product->category_id) == $category->id ) selected @endif>{{ $category->name }}</option>--}}
+{{--                          @endforeach--}}
+{{--                        </select>--}}
+{{--                        @error('category_id')--}}
+{{--                            <p class="text-danger">{{ $message }}</p>--}}
+{{--                        @enderror--}}
                     </div>
                     <div class="form-group">
                         <label for="name">Price</label>
@@ -117,11 +118,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="name">Length</label>
-                        <input type="number" class="form-control @error('length') is-invalid @enderror" id="length" name="length" value="{{ old('length', $product->length) }}">
-                        @error('length')
-                        <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                        <x-form-input type="number" name="length" lable="length" :value="$product->length" />
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">Image</label>
