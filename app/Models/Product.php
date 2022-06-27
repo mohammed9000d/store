@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'slug', 'category_id', 'description', 'image', 'status',
         'price', 'sale_price', 'quantitiy', 'sku', 'weight', 'width', 'height', 'length'];
@@ -30,4 +33,23 @@ class Product extends Model
             'status' => 'in:Active,Draft'
         ];
     }
+
+    public function getImageUrlAttribute() {
+        if(!$this->image) {
+            return asset('images/placeholder.png');
+        }
+
+        if(stripos($this->image, 'http') === 0) {
+            return $this->image;
+        }
+
+        return asset('uploads' . $this->image);
+    }
+
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = Str::title($value);
+        $this->attributes['slug'] = Str::slug($value);
+    }
+
+
 }

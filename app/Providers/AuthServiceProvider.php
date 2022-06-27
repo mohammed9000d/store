@@ -25,6 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('products.create', function(){
+           return true;
+        });
+
+        Gate::define('products.delete', function(){
+            return false;
+        });
     }
 }

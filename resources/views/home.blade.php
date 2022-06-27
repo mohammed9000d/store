@@ -41,7 +41,7 @@
                 </ul>
             </div>
             <div class="ps-section__content pb-50">
-                <x-latest-products count="12" />
+                <x-latest-products count="5" />
             </div>
         </div>
     </div>

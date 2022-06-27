@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -33,6 +34,9 @@ class ProductController extends Controller
     public function create()
     {
         //
+        if(!Gate::allows('products.create')){
+            abort(403);
+        }
         $categories = Category::pluck('name', 'id');
         return view('admin.products.create', ['categories' => $categories]);
     }
@@ -45,7 +49,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(Product::rules());
+        if(!Gate::allows('products.create')){
+            abort(403);
+        }
+         $request->validate(Product::rules());
         $all_request = $request->except(['image']);
         if($request->hasFile('image')) {
             $file = $request->file('image');
@@ -54,7 +61,7 @@ class ProductController extends Controller
             ]);
             $all_request['image'] = $image;
         }
-        $all_request['slug'] = Str::slug($request->get('name'));
+//        $all_request['slug'] = Str::slug($request->get('name'));
         Product::create( $all_request );
         return redirect()->route('products.index')
             ->with('success', 'Created Product Successfully');
@@ -81,7 +88,7 @@ class ProductController extends Controller
     {
         //
         $product = product::findOrfail($id);
-        $categories = Category::pluck('name', 'id');
+        $categories = Category::withTrashed()->pluck('name', 'id');
         return view('admin.products.edit', ['categories' => $categories, 'product' => $product]);
     }
 
@@ -104,7 +111,7 @@ class ProductController extends Controller
             ]);
             $all_request['image'] = $image;
         }
-        $all_request['slug'] = Str::slug($request->get('name'));
+//        $all_request['slug'] = Str::slug($request->get('name'));
         $product->update( $all_request );
         return redirect()->route('products.index')
             ->with('success', 'Updated Product Successfully');
@@ -114,28 +121,66 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
         //
-        $isDeleted = Product::distroy($id);
-
-        Storage::disk('uploads')->delete($product->image);
-        if($isDeleted){
-            return response()->json([
-                'title'=>'Success',
-                'text'=>'Admin deleted successfully',
-                'icon'=>'success'
-            ]);
-
-        }else{
-            return response()->json([
-                'title'=>'Failed',
-                'text'=>'Failed to delete admin',
-                'icon'=>'error'
-            ]);
-
+        if(!Gate::allows('products.delete')){
+            abort(403);
         }
+        $product = Product::find($id);
+        $product->delete();
+//        Storage::disk('uploads')->delete($product->image);
+        return redirect()->back()
+            ->with('success', 'Deleted Product Successfully');
+//        if($isDeleted){
+//            return response()->json([
+//                'title'=>'Success',
+//                'text'=>'Admin deleted successfully',
+//                'icon'=>'success'
+//            ]);
+//
+//        }else{
+//            return response()->json([
+//                'title'=>'Failed',
+//                'text'=>'Failed to delete admin',
+//                'icon'=>'error'
+//            ]);
+//
+//        }
     }
+
+    public function trash() {
+        $products = Product::onlyTrashed()->paginate();
+        return view('admin.products.trash', [
+            'products' => $products
+        ]);
+    }
+
+    public function restore(Request $request, $id = null) {
+        if($id) {
+            $product = Product::onlyTrashed()->find($id);
+            $product->restore();
+            return redirect()->route('products.index')
+                ->with('success', 'Restored Product Successfully');
+        }
+        Product::onlyTrashed()->restore();
+        return redirect()->route('products.index')
+            ->with('success', 'Restored All Products Successfully');
+
+    }
+
+    public function force_delete($id = null) {
+        if($id) {
+            $product = Product::onlyTrashed()->find($id);
+            $product->forceDelete();
+            return redirect()->route('products.index')
+                ->with('success', 'Deleted Product Successfully');
+        }
+        Product::onlyTrashed()->forceDelete();
+        return redirect()->route('products.index')
+            ->with('success', 'Deleted All Products Successfully');
+    }
+
 }
