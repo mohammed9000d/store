@@ -31,10 +31,12 @@ Route::get('/admin/products/trash', [ProductController::class, 'trash'])->name('
 Route::put('/admin/products/trash/{id?}', [ProductController::class, 'restore'])->name('products.restore');
 Route::delete('/admin/products/trash/{id?}', [ProductController::class, 'force_delete'])->name('products.force-delete');
 
-Route::resource('/admin/products', 'Admin\ProductController')->middleware(['auth', 'verified']);
+Route::resource('/admin/products', 'Admin\ProductController')->middleware(['auth']);
 
 Route::get('/admin/categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
 Route::put('/admin/categories/trash/{id?}', [CategoryController::class, 'restore'])->name('categories.restore');
 Route::delete('/admin/categories/trash/{id?}', [CategoryController::class, 'force_delete'])->name('categories.force-delete');
 
 Route::resource('/admin/categories', 'Admin\CategoryController')->middleware('auth');
+
+Route::resource('/admin/roles', 'Admin\RolesController')->middleware('auth');
