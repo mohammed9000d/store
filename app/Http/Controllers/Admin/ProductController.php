@@ -22,6 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         //
+        $this->authorize('view-any', Product::class);
         $products = Product::paginate(5);
         return view('admin.products.index', ['products' => $products]);
     }
@@ -34,9 +35,10 @@ class ProductController extends Controller
     public function create()
     {
         //
-        if(!Gate::allows('products.create')){
-            abort(403);
-        }
+//        if(!Gate::allows('products.create')){
+//            abort(403);
+//        }
+        $this->authorize('create', Product::class);
         $categories = Category::pluck('name', 'id');
         return view('admin.products.create', ['categories' => $categories]);
     }
@@ -49,9 +51,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Gate::allows('products.create')){
-            abort(403);
-        }
+//        if(!Gate::allows('products.create')){
+//            abort(403);
+//        }
+        $this->authorize('create', Product::class);
          $request->validate(Product::rules());
         $all_request = $request->except(['image']);
         if($request->hasFile('image')) {
@@ -88,6 +91,7 @@ class ProductController extends Controller
     {
         //
         $product = product::findOrfail($id);
+        $this->authorize('update', $product);
         $categories = Category::withTrashed()->pluck('name', 'id');
         return view('admin.products.edit', ['categories' => $categories, 'product' => $product]);
     }
@@ -102,6 +106,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+        $this->authorize('update', $product);
         $request->validate(Product::rules());
         $all_request = $request->except(['image']);
         if($request->hasFile('image')) {
@@ -126,10 +131,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        if(!Gate::allows('products.delete')){
-            abort(403);
-        }
+//        if(!Gate::allows('products.delete')){
+//            abort(403);
+//        }
         $product = Product::find($id);
+        $this->authorize('delete', $product);
         $product->delete();
 //        Storage::disk('uploads')->delete($product->image);
         return redirect()->back()
@@ -161,11 +167,14 @@ class ProductController extends Controller
     public function restore(Request $request, $id = null) {
         if($id) {
             $product = Product::onlyTrashed()->find($id);
+            $this->authorize('restore', $product);
             $product->restore();
             return redirect()->route('products.index')
                 ->with('success', 'Restored Product Successfully');
         }
-        Product::onlyTrashed()->restore();
+        $products = Product::onlyTrashed();
+        $this->authorize('restore', $products);
+        $products->restore();
         return redirect()->route('products.index')
             ->with('success', 'Restored All Products Successfully');
 
@@ -174,11 +183,14 @@ class ProductController extends Controller
     public function force_delete($id = null) {
         if($id) {
             $product = Product::onlyTrashed()->find($id);
+            $this->authorize('force_delete', $product);
             $product->forceDelete();
             return redirect()->route('products.index')
                 ->with('success', 'Deleted Product Successfully');
         }
-        Product::onlyTrashed()->forceDelete();
+        $products = Product::onlyTrashed();
+        $this->authorize('force_delete', $products);
+        $products->forceDelete();
         return redirect()->route('products.index')
             ->with('success', 'Deleted All Products Successfully');
     }
