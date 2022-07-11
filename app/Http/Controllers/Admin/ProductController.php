@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         //
         $this->authorize('view-any', Product::class);
-        $products = Product::paginate(5);
+        $products = Product::with('category')->paginate(5);
         return view('admin.products.index', ['products' => $products]);
     }
 

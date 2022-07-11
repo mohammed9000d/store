@@ -11,6 +11,11 @@ class Category extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable = ['name', 'slug', 'parent_id', 'description', 'image', 'status'];
+
+    public function products(){
+        return $this->hasMany(Product::class, 'category_id', 'id');
+    }
+
     // Exists Attribute
     // $model->name
     public function getNameAttribute($value)

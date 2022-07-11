@@ -10,4 +10,8 @@ class Role extends Model
     use HasFactory;
     protected $fillable = ['name', 'abilities'];
     protected $casts = ['abilities' => 'json'];
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id', 'id', 'id');
+    }
 }
