@@ -40,3 +40,6 @@ Route::delete('/admin/categories/trash/{id?}', [CategoryController::class, 'forc
 Route::resource('/admin/categories', 'Admin\CategoryController')->middleware('auth');
 
 Route::resource('/admin/roles', 'Admin\RolesController')->middleware('auth');
+Route::resource('/admin/countries', 'Admin\CountryController')->middleware('auth');
+
+Route::post('ratings/{type}', [App\Http\Controllers\RatingsController::class, 'store'])->where('type', 'product|user');

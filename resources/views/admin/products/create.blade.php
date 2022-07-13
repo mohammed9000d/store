@@ -58,8 +58,8 @@
                         <label>Select</label>
                         <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
                           <option value="">No Category</option>
-                          @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" @if (old('category->id') == $category->id ) selected @endif>{{ $category->name }}</option>
+                          @foreach ($categories as $key => $category)
+                            <option value="{{ $key }}" @if (old('category->id') == $key ) selected @endif>{{ $category }}</option>
                           @endforeach
                         </select>
                         @error('category_id')

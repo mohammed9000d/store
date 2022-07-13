@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->original_name }}</td>
-                                <td>{{ $category->parent_id }}</td>
+                                <td>{{ $category->parent->name }}</td>
                                 <td>{{ $category->status }}</td>
                                 <td>{{ $category->created_at->diffForHumans(now())}}</td>
                                 <td>{{ $category->updated_at->diffForHumans(now()) }}</td>

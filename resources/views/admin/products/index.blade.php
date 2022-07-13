@@ -32,6 +32,7 @@
                         <tr>
                             <th>Image</th>
                             <th>Name</th>
+                            <th>Category</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Status</th>
@@ -48,6 +49,7 @@
                                          width="100" height="50" style="object-fit: cover">
                                 </td>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->quantitiy }}</td>
                                 <td>{{ $product->status }}</td>

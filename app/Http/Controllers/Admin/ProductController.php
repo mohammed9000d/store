@@ -79,6 +79,8 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+        $product = Product::findOrFail($id);
+        return $product->ratings()->get();
     }
 
     /**
@@ -164,7 +166,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function restore(Request $request, $id = null) {
+    public function restore($id = null) {
         if($id) {
             $product = Product::onlyTrashed()->find($id);
             $this->authorize('restore', $product);

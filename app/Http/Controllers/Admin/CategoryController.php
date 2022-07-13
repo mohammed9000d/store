@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withTrashed()->paginate(5);
+        $categories = Category::paginate(5);
         session()->get('success');
         return view('admin.categories.index', ['categories' => $categories]);
     }
@@ -62,9 +62,14 @@ class CategoryController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $category->products()
+            ->with('category:id,name')
+            ->where('price', '>', 0)
+            ->orderBy('price', 'desc')
+            ->get();
+//        dd($products);
     }
 
     /**

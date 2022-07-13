@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         $id = $this->route('id');
         return [
             'name' => 'required|string|min:3|max:255|unique:categories,id, '. $id,
-            'parent_id' => 'required|integer|exists:categories,id',
+            'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
             'image' => 'nullable|image',
             'status' => 'in:Active,Draft'

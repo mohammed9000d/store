@@ -23,10 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
     ];
 
-    public function roles() {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id', 'id');
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -58,5 +54,21 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
         return false;
+    }
+
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id', 'id');
+    }
+
+    public function country() {
+        return $this->belongsTo(Country::class)->withDefault();
+    }
+
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
+
+    public function ratings() {
+        return $this->morphMany(Rating::class, 'rateable', 'rateable_type', 'rateable_id', 'id');
     }
 }
