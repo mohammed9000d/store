@@ -35,14 +35,18 @@ Route::prefix('admin')->namespace('Admin')->middleware(['auth', 'auth.type:admin
     Route::resource('/products', 'ProductController');
 
     Route::get('/categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
-    Route::put('//categories/trash/{id?}', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::put('/categories/trash/{id?}', [CategoryController::class, 'restore'])->name('categories.restore');
     Route::delete('/categories/trash/{id?}', [CategoryController::class, 'force_delete'])->name('categories.force-delete');
 
     Route::resource('/categories', 'CategoryController');
 
     Route::resource('/roles', 'RolesController');
     Route::resource('/countries', 'CountryController');
+
 });
 
 
 Route::post('ratings/{type}', [App\Http\Controllers\RatingsController::class, 'store'])->where('type', 'product|user');
+
+Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
+Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store']);
