@@ -2,29 +2,46 @@
 
 namespace App\Repositories\Cart;
 
+use App\Models\Cart;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 
 class DatabaseRepository implements CartRepository
 {
-    protected $name = 'cart';
     public function all()
     {
-        $items = Cookie::get($this->name);
-        if($items){
-            return unserialize($items);
-        }
-        return [];
+        return Cart::where('cookie_id', $this->getCookieId())
+            ->orWhere('user_id', Auth::id())
+            ->get();
     }
 
-    public function add($item)
+    public function add($item, $qty = 1)
     {
-        $items = $this->all();
-        $items[] = $item;
-        Cookie::queue($this->name, serialize($items), 60 * 24 * 30);
+        return Cart::createOrUpdate([
+            'cookie_id' => $this->getCookieId(),
+            'product_id'=> ($item instanceof Product) ? $item->id : $item,
+        ],[
+            'user_id' => Auth::id(),
+            'quantity' => DB::row('quantity +'.$qty) ,
+        ]);
     }
 
     public function clear()
     {
-        Cookie::queue($this->name, '', -60);
+        return Cart::where('cookie_id', $this->getCookieId())
+            ->orWhere('user_id', Auth::id())
+            ->delete();
+    }
+
+    public function getCookieId()
+    {
+        $id = Cookie::get('cart_cookie_id');
+        if(!$id){
+            $id = Str::uuid();
+            Cookie::queue('cart_cookie_id', $id, 60 * 24 * 30);
+        }
+        return $id;
     }
 }
