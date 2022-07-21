@@ -51,6 +51,11 @@ class Product extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
+    public function scopeActive($query) {
+        return $query->where('status', 'Active');
+    }
+
+
     public function category() {
         return $this->belongsTo(Category::class, 'category_id', 'id')->withDefault(['name' => 'No Category']);
     }

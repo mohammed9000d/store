@@ -45,6 +45,9 @@ Route::prefix('admin')->namespace('Admin')->middleware(['auth', 'auth.type:admin
 
 });
 
+Route::get('products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
+Route::get('products/{slug}', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.detail');
+
 
 Route::post('ratings/{type}', [App\Http\Controllers\RatingsController::class, 'store'])->where('type', 'product|user');
 
