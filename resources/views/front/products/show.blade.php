@@ -1,4 +1,19 @@
 <x-store-front-layout :title="$product->name">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="test">
         <div class="container">
             <div class="row">
@@ -70,7 +85,8 @@
                             </ul>
                         </div>
                         <form action="{{ route('cart') }}" method="POST">
-                            <input type="text" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            @csrf
                             <div class="ps-product__block ps-product__size">
                                 <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
                                 <select class="ps-select selectpicker">
@@ -92,13 +108,13 @@
                                     <input class="form-control" name="quantity" type="number" value="1">
                                 </div>
                             </div>
-                        </form>
                         <div class="ps-product__shopping"><button type="submit" class="ps-btn mb-10">Add to cart<i
                                     class="ps-icon-next"></i></button>
                             <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i
                                         class="ps-icon-heart"></i></a><a href="compare.html"><i
                                         class="ps-icon-share"></i></a></div>
                         </div>
+                        </form>
                     </div>
                     <div class="clearfix"></div>
                     <div class="ps-product__content mt-50">

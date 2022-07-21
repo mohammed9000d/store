@@ -18,8 +18,9 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->cart->all();
-        return view('cart', [
-            'cart' => $cart
+        return view('front.cart', [
+            'cart' => $cart,
+            'total' => $this->cart->total(),
         ]);
     }
 
@@ -30,8 +31,8 @@ class CartController extends Controller
             'quantity' => ['integer', 'min:1', function($att, $value, $fail) {
                 $id = request()->input('product_id');
                 $product = Product::find($id);
-                if($value > $product->quantity){
-                    $fail('There are only ' . $product->quantity . ' items in stock');
+                if($value > $product->quantitiy){
+                    $fail('There are only ' . $product->quantitiy . ' items in stock');
                 }
             }]
         ]);
