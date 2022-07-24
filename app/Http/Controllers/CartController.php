@@ -37,8 +37,11 @@ class CartController extends Controller
             }]
         ]);
 
-        $this->cart->add($request->post('product_id'), $request->post('quantity', 1));
+        $cart = $this->cart->add($request->post('product_id'), $request->post('quantity', 1));
 
+        if($request->expectsJson()){
+            return $this->cart->all();
+        }
         return redirect()->back()->with('success', 'Product added to cart');
     }
 }

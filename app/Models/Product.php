@@ -15,6 +15,17 @@ class Product extends Model
     protected $fillable = ['name', 'slug', 'category_id', 'description', 'image', 'status',
         'price', 'sale_price', 'quantitiy', 'sku', 'weight', 'width', 'height', 'length'];
 
+    protected $casts = [
+        'price' => 'float',
+        'quantity' => 'int',
+    ];
+
+    protected $appends = [
+        'image_url',
+        'perma-link',
+    ];
+
+
     public static function rules()
     {
         return [
@@ -44,6 +55,10 @@ class Product extends Model
         }
 
         return asset('uploads' . $this->image);
+    }
+
+    public function getPermaLinkAttribute() {
+        return route('products.detail', $this->slug);
     }
 
     public function setNameAttribute($value) {

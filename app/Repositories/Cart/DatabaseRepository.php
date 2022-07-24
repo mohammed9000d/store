@@ -36,8 +36,8 @@ class DatabaseRepository implements CartRepository
             'user_id' => Auth::id(),
             'quantity' => DB::raw('quantity +'.$qty) ,
         ]);
-        $this->items->push($cart);
-
+//        $this->items->push($cart);
+        $this->items = collect([]);
         return $cart;
     }
 
@@ -64,5 +64,11 @@ class DatabaseRepository implements CartRepository
         return $items->sum(function($item){
             return $item->quantity * $item->product->price;
         });
+    }
+
+    public function quantity()
+    {
+        $items = $this->all();
+        return $items->sum('quantity');
     }
 }

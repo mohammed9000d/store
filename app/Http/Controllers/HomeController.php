@@ -10,7 +10,7 @@ class HomeController extends Controller
     //
     public function index()
     {
-        $products = Product::latest()->limit(12)->get();
+        $products = Product::latest()->limit(20)->get();
         return view('home', ['products' => $products]);
     }
 }

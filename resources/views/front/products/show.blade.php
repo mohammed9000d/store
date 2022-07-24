@@ -84,7 +84,7 @@
                                 <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
                             </ul>
                         </div>
-                        <form action="{{ route('cart') }}" method="POST">
+                        <form action="{{ route('cart') }}" method="POST" id="add-to-cart">
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             @csrf
                             <div class="ps-product__block ps-product__size">
