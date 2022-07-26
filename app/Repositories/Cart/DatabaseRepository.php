@@ -20,9 +20,13 @@ class DatabaseRepository implements CartRepository
     public function all()
     {
         if($this->items->count() == 0){
-            $this->items = Cart::where('cookie_id', $this->getCookieId())
-                ->orWhere('user_id', Auth::id())
-                ->get();
+            if(Auth::check()){
+                $this->items = Cart::where('cookie_id', $this->getCookieId())
+                    ->orWhere('user_id', Auth::id())
+                    ->get();
+            }else{
+                $this->items = Cart::where('cookie_id', $this->getCookieId())->get();
+            }
         }
         return $this->items;
     }

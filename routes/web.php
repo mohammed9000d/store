@@ -53,3 +53,9 @@ Route::post('ratings/{type}', [App\Http\Controllers\RatingsController::class, 's
 
 Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
 Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store']);
+
+Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'create'])->name('checkout');
+Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'store']);
+Route::get('/orders', function(){
+    return \App\Models\Order::all();
+})->name('orders');

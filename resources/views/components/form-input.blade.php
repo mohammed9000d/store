@@ -1,5 +1,5 @@
 <lable for="{{ $id ?? $name }}">{{ $lable }}</lable>
-<input type="{{ $type }}"
+<input type="{{ $type ?? 'text' }}"
        class="form-control @error($name) is-invalid @enderror"
        name="{{ $name }}"
        id="{{ $id ?? $name }}"
