@@ -4,9 +4,12 @@ namespace App\Listeners;
 
 use App\Events\OrderCreated;
 use App\Mail\OrderInvoice;
+use App\Models\User;
+use App\Notifications\OrderCreatedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class SendInvoiceListener
 {
@@ -30,6 +33,19 @@ class SendInvoiceListener
     {
         //
         $order = $event->order;
-        Mail::to($order->billing_email)->send(new OrderInvoice($order));
+
+//        $user = User::where('type', 'super-admin')->first();
+        $users = User::whereIn('type', ['super-admin', 'admin'])->get();
+//        $user->notify(new OrderCreatedNotification($order));
+//        foreach ($users as $user) {
+//            $user->notify(new OrderCreatedNotification($order));
+//        }
+
+        Notification::send($users, new OrderCreatedNotification($order));
+
+//        Notification::route('mail', ['info@example.com', 'admin@example.com'])
+//            ->notify(new OrderCreatedNotification($order));
+
+//        Mail::to($order->billing_email)->send(new OrderInvoice($order));
     }
 }

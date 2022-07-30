@@ -59,3 +59,6 @@ Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'stor
 Route::get('/orders', function(){
     return \App\Models\Order::all();
 })->name('orders');
+
+Route::get('chat', [App\Http\Controllers\MessagesController::class, 'index'])->name('chat');
+Route::post('chat', [App\Http\Controllers\MessagesController::class, 'store']);

@@ -71,4 +71,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ratings() {
         return $this->morphMany(Rating::class, 'rateable', 'rateable_type', 'rateable_id', 'id');
     }
+
+    public function routeNotificationForMail($notification = null)
+    {
+        return $this->email;
+    }
+
+    public function routeNotificationForNexmo($notification = null)
+    {
+        return $this->mobile;
+    }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'Notifications.' . $this->id;
+    }
 }
