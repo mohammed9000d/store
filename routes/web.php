@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\productController;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,14 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::prefix('admin')->namespace('Admin')->middleware(['auth', 'auth.type:admin,super-admin'])->group(function () {
+Route::prefix('admin')
+    ->namespace('Admin')
+    ->middleware(['auth', 'auth.type:admin,super-admin'])
+    ->group(function () {
+
+        Route::get('notifications', [NotificationsController::class, 'index'])->name('notifications');
+        Route::get('notifications/{id}', [NotificationsController::class, 'show'])->name('notifications.read');
+
     Route::get('/products/trash', [ProductController::class, 'trash'])->name('products.trash');
     Route::put('/products/trash/{id?}', [ProductController::class, 'restore'])->name('products.restore');
     Route::delete('/products/trash/{id?}', [ProductController::class, 'force_delete'])->name('products.force-delete');

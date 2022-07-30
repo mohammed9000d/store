@@ -8,6 +8,23 @@ window.Echo.private('orders')
         console.log(event);
     });
 
+window.Echo.private(`Notifications.${userId}`)
+    .notification(function(e) {
+        var count = Number($('#unread').text());
+        count++;
+        $('.unread').text(count);
+          $('#notifications').prepend(`
+                 <a href="#" class="dropdown-item">
+                    <i class="fas fa-envelope mr-2"></i>
+                    <b>*</b>
+                    ${ e.title }
+                    <span class="float-right text-muted text-sm">${e.time}</span>
+                </a>
+                <div class="dropdown-divider"></div>
+          `);
+          alert(e.title);
+    })
+
 window.Echo.join('chat')
     .here(users => {
         console.log(users);
